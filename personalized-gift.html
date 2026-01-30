@@ -89,10 +89,7 @@
                     <textarea class="quiz-textarea" id="specialMessage" placeholder="Write a personal message to include with the gift..."></textarea>
                     <div class="quiz-nav finish-nav">
                         <button class="btn-quiz-nav" onclick="prevStep()">&#8592; Back</button>
-                        <div class="finish-btn-wrapper">
-                            <svg class="finish-star" width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#D4AD3E" stroke-width="1.2"><path d="M14 2l3.5 8.5L26 12l-6.5 5.5L21.5 26 14 21.5 6.5 26l2-8.5L2 12l8.5-1.5Z"/></svg>
-                            <button class="btn-quiz-nav btn-finish" onclick="finishGift()">Complete Gift</button>
-                        </div>
+                        <button class="btn-quiz-nav btn-finish" onclick="finishGift()">Complete Gift</button>
                     </div>
                 </div>
             </div>
@@ -114,7 +111,10 @@
                 <div class="gift-final-icon" id="finalIcon"></div>
                 <div class="gift-final-details" id="finalDetails"></div>
             </div>
-            <button class="btn-order" onclick="orderGift()" style="margin-top:30px;">Ready to Order</button>
+            <div class="gift-final-actions">
+                <button class="btn-order" onclick="orderGift()">Ready to Order</button>
+                <button class="btn-quiz-nav" onclick="startOver()">Start Over</button>
+            </div>
         </div>
     </section>
 
@@ -141,12 +141,12 @@
             <a href="custom-design.html">Custom Design</a>
             <a href="workshop.html">Workshop</a>
             <a href="personalized-gift.html">Personalized Gift</a>
+            <a href="about.html" class="about-link">About Us</a>
         </nav>
         <div class="footer-divider"></div>
         <p class="footer-copy">&copy; 2026 Velvet Memories. All rights reserved.</p>
     </footer>
     <script>document.getElementById('navToggle').addEventListener('click',()=>document.getElementById('navAccordion').classList.toggle('open'));</script>
-    <script>window.addEventListener('scroll',()=>document.querySelector('.page-header').classList.toggle('scrolled',window.scrollY>50));</script>
     <script>window.addEventListener('scroll',()=>document.querySelector('.page-header').classList.toggle('scrolled',window.scrollY>50));</script>
 
     <script>
@@ -295,6 +295,26 @@
                 final.style.display = 'block';
                 setTimeout(() => final.classList.add('visible'), 50);
             }, 500);
+        }
+
+        function startOver() {
+            giftState.occasion = ''; giftState.contents = ''; giftState.color = '';
+            giftState.extras = []; giftState.message = '';
+            document.getElementById('boxContents').value = '';
+            document.getElementById('specialMessage').value = '';
+            document.querySelectorAll('.quiz-option').forEach(b => b.classList.remove('selected'));
+            currentStep = 1;
+            const final = document.getElementById('giftFinal');
+            final.classList.remove('visible');
+            setTimeout(() => {
+                final.style.display = 'none';
+                const builder = document.getElementById('giftBuilder');
+                builder.style.display = '';
+                builder.style.opacity = '1';
+                builder.style.transform = '';
+                showStep(1);
+                updateLivePreview();
+            }, 400);
         }
 
         function orderGift() {

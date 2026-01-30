@@ -27,13 +27,18 @@
 
     <section class="workshop-page">
         <div class="workshop-video-wrapper" id="videoWrapper">
-            <!-- To enable video: place your .mp4 file at assets/workshop-video.mp4 -->
-            <video id="workshopVideo" autoplay muted loop playsinline poster="assets/images/home page bg/workshop.jpg">
-                <source src="assets/workshop-video.mp4" type="video/mp4">
-            </video>
-            <div class="video-poster-fallback" id="videoPoster">
-                <span class="video-play-icon">&#9654;</span>
-                <p class="video-note">Video coming soon</p>
+            <div class="yt-container" id="ytContainer">
+                <iframe id="ytPlayer"
+                    src="https://www.youtube.com/embed/2eFKm1GlhmY?enablejsapi=1&rel=0&modestbranding=1&controls=0&loop=1&mute=1&autoplay=1&playlist=2eFKm1GlhmY"
+                    frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+            <div class="video-gold-controls" id="videoControls">
+                <button class="vctl-btn" id="playPauseBtn" title="Play/Pause">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="var(--gold)" stroke="none"><polygon points="4,2 18,10 4,18"/></svg>
+                </button>
+                <button class="vctl-btn" id="muteBtn" title="Mute/Unmute">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M2 7h3l5-4v14l-5-4H2z"/><line x1="15" y1="5" x2="15" y2="15" stroke-dasharray="2 2"/></svg>
+                </button>
             </div>
         </div>
 
@@ -103,6 +108,7 @@
             <a href="custom-design.html">Custom Chocolate Design</a>
             <a href="workshop.html" class="current">Mini Workshop</a>
             <a href="personalized-gift.html">Personalized Gift</a>
+            <a href="about.html" class="about-link">About Us</a>
         </nav>
     </div>
 
@@ -115,12 +121,12 @@
             <a href="custom-design.html">Custom Design</a>
             <a href="workshop.html">Workshop</a>
             <a href="personalized-gift.html">Personalized Gift</a>
+            <a href="about.html">About Us</a>
         </nav>
         <div class="footer-divider"></div>
         <p class="footer-copy">&copy; 2026 Velvet Memories. All rights reserved.</p>
     </footer>
     <script>document.getElementById('navToggle').addEventListener('click',()=>document.getElementById('navAccordion').classList.toggle('open'));</script>
-    <script>window.addEventListener('scroll',()=>document.querySelector('.page-header').classList.toggle('scrolled',window.scrollY>50));</script>
     <script>window.addEventListener('scroll',()=>document.querySelector('.page-header').classList.toggle('scrolled',window.scrollY>50));</script>
 
     <script>
@@ -129,15 +135,36 @@
             window.open(`https://wa.me/?text=${msg}`, '_blank');
         }
 
-        // Show poster fallback if video can't load; hide it if video plays
-        const vid = document.getElementById('workshopVideo');
-        const poster = document.getElementById('videoPoster');
-        if (vid) {
-            vid.addEventListener('canplay', () => { poster.classList.add('hidden'); });
-            vid.addEventListener('error', () => { poster.classList.remove('hidden'); });
-            // Also set poster background from the poster attribute
-            poster.style.backgroundImage = `url('${vid.getAttribute('poster')}')`;
+        // YouTube custom gold controls
+        let ytPlaying = true, ytMuted = true;
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const muteBtn = document.getElementById('muteBtn');
+        const ytFrame = document.getElementById('ytPlayer');
+
+        const pauseIcon = '<svg width="20" height="20" viewBox="0 0 20 20" fill="var(--gold)" stroke="none"><rect x="4" y="2" width="4" height="16"/><rect x="12" y="2" width="4" height="16"/></svg>';
+        const playIcon = '<svg width="20" height="20" viewBox="0 0 20 20" fill="var(--gold)" stroke="none"><polygon points="4,2 18,10 4,18"/></svg>';
+        const muteOnIcon = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M2 7h3l5-4v14l-5-4H2z"/><line x1="14" y1="7" x2="18" y2="13"/><line x1="18" y1="7" x2="14" y2="13"/></svg>';
+        const muteOffIcon = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M2 7h3l5-4v14l-5-4H2z"/><path d="M14 6c2 2 2 6 0 8"/><path d="M16 4c3 3 3 9 0 12"/></svg>';
+
+        function postYT(action) {
+            ytFrame.contentWindow.postMessage(JSON.stringify({event:'command', func:action, args:[]}), '*');
         }
+
+        playPauseBtn.addEventListener('click', () => {
+            if (ytPlaying) { postYT('pauseVideo'); playPauseBtn.innerHTML = playIcon; }
+            else { postYT('playVideo'); playPauseBtn.innerHTML = pauseIcon; }
+            ytPlaying = !ytPlaying;
+        });
+        // Start as playing, show pause icon
+        playPauseBtn.innerHTML = pauseIcon;
+
+        muteBtn.addEventListener('click', () => {
+            if (ytMuted) { postYT('unMute'); muteBtn.innerHTML = muteOffIcon; }
+            else { postYT('mute'); muteBtn.innerHTML = muteOnIcon; }
+            ytMuted = !ytMuted;
+        });
+        // Start muted
+        muteBtn.innerHTML = muteOnIcon;
     </script>
     <script src="js/preloader.js"></script>
     <script src="js/cursor.js"></script>
