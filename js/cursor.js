@@ -77,7 +77,6 @@
     let idleRAF = null;
     const IDLE_TIMEOUT = 20000;
 
-    // SVG canvas for drawing lines
     const idleSVG = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     idleSVG.setAttribute('width', '100%');
     idleSVG.setAttribute('height', '100%');
@@ -89,33 +88,48 @@
     });
     document.body.appendChild(idleSVG);
 
-    // Idle cursor position (virtual)
-    let ix, iy, iTargetX, iTargetY;
-    let idleLines = [];
-    let idlePhase = 0; // 0=moving to point, 1=drawing
-    let idlePoints = [];
-    let idlePointIndex = 0;
-    let idleShapeTimer = 0;
+    let ix, iy;
+
+    // All steps the cursor must take: { type:'move'|'draw', x, y }
+    let idleSteps = [];
+    let idleStepIndex = 0;
+    // For draw steps, the live SVG line
+    let activeLine = null;
+    let stepFrom = null;
+    let stepProgress = 0;
+
+    function generateShape() {
+        const W = window.innerWidth, H = window.innerHeight;
+        const cx = 100 + Math.random() * (W - 200);
+        const cy = 100 + Math.random() * (H - 200);
+        const size = 35 + Math.random() * 65;
+        const sides = [3, 4, 5, 6, 7, 8][Math.floor(Math.random() * 6)];
+        const pts = [];
+        const off = Math.random() * Math.PI * 2;
+        for (let i = 0; i <= sides; i++) {
+            const a = off + (i % sides) * (Math.PI * 2 / sides);
+            pts.push({ x: cx + Math.cos(a) * size, y: cy + Math.sin(a) * size });
+        }
+        return pts;
+    }
+
+    function buildSteps() {
+        // Build a sequence of 5 shapes worth of steps
+        for (let s = 0; s < 5; s++) {
+            const pts = generateShape();
+            // First point: move (no line)
+            idleSteps.push({ type: 'move', x: pts[0].x, y: pts[0].y });
+            // Remaining points: draw lines
+            for (let i = 1; i < pts.length; i++) {
+                idleSteps.push({ type: 'draw', x: pts[i].x, y: pts[i].y });
+            }
+        }
+    }
 
     function resetIdleTimer() {
         if (idleActive) stopIdle();
         clearTimeout(idleTimer);
         idleTimer = setTimeout(startIdle, IDLE_TIMEOUT);
-    }
-
-    function generateShape() {
-        // Random shape center somewhere visible
-        const cx = 100 + Math.random() * (window.innerWidth - 200);
-        const cy = 100 + Math.random() * (window.innerHeight - 200);
-        const size = 40 + Math.random() * 80;
-        const sides = [3, 4, 5, 6, 8][Math.floor(Math.random() * 5)];
-        const pts = [];
-        const angleOff = Math.random() * Math.PI * 2;
-        for (let i = 0; i <= sides; i++) {
-            const a = angleOff + (i % sides) * (Math.PI * 2 / sides);
-            pts.push({ x: cx + Math.cos(a) * size, y: cy + Math.sin(a) * size });
-        }
-        return pts;
     }
 
     function startIdle() {
@@ -124,114 +138,104 @@
         idleSVG.style.opacity = '1';
         cursor.classList.add('idle-drawing');
         trail.classList.add('idle-drawing');
-        nextIdleShape();
-        idleLoop();
-    }
-
-    function nextIdleShape() {
-        idlePoints = generateShape();
-        idlePointIndex = 0;
-        iTargetX = idlePoints[0].x;
-        iTargetY = idlePoints[0].y;
-        idlePhase = 0; // move to first point
+        idleSteps = [];
+        idleStepIndex = 0;
+        activeLine = null;
+        stepFrom = null;
+        buildSteps();
+        idleRAF = requestAnimationFrame(idleLoop);
     }
 
     function idleLoop() {
         if (!idleActive) return;
 
-        // Smoothly move virtual cursor toward target
-        const speed = idlePhase === 0 ? 0.04 : 0.06;
-        ix += (iTargetX - ix) * speed;
-        iy += (iTargetY - iy) * speed;
+        // Refill steps if running low
+        if (idleStepIndex >= idleSteps.length - 2) {
+            buildSteps();
+        }
 
-        // Update real cursor position
+        const step = idleSteps[idleStepIndex];
+
+        if (step.type === 'move') {
+            // Glide cursor to this point — no line drawn
+            const dx = step.x - ix, dy = step.y - iy;
+            const dist = Math.hypot(dx, dy);
+            if (dist > 1.5) {
+                // Smooth constant speed: 5px/frame
+                const spd = Math.min(5, dist * 0.08);
+                ix += (dx / dist) * spd;
+                iy += (dy / dist) * spd;
+            } else {
+                ix = step.x; iy = step.y;
+                idleStepIndex++;
+            }
+        } else {
+            // Draw: extend a line from previous position to target
+            if (!activeLine) {
+                stepFrom = { x: ix, y: iy };
+                stepProgress = 0;
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', ix);
+                line.setAttribute('y1', iy);
+                line.setAttribute('x2', ix);
+                line.setAttribute('y2', iy);
+                line.setAttribute('stroke', '#D4AD3E');
+                line.setAttribute('stroke-width', '1.2');
+                line.setAttribute('stroke-linecap', 'round');
+                line.setAttribute('opacity', '0.5');
+                idleSVG.appendChild(line);
+                activeLine = line;
+            }
+
+            // Advance progress — 0.025/frame ≈ 40 frames per segment
+            stepProgress += 0.025;
+            if (stepProgress > 1) stepProgress = 1;
+
+            const px = stepFrom.x + (step.x - stepFrom.x) * stepProgress;
+            const py = stepFrom.y + (step.y - stepFrom.y) * stepProgress;
+
+            activeLine.setAttribute('x2', px);
+            activeLine.setAttribute('y2', py);
+            ix = px; iy = py;
+
+            if (stepProgress >= 1) {
+                activeLine = null;
+                stepFrom = null;
+                idleStepIndex++;
+            }
+        }
+
+        // Update cursor position
         cursor.style.left = ix + 'px';
         cursor.style.top = iy + 'px';
         trail.style.left = ix + 'px';
         trail.style.top = iy + 'px';
 
-        const dist = Math.hypot(iTargetX - ix, iTargetY - iy);
-
-        if (dist < 3) {
-            if (idlePhase === 0) {
-                // Arrived at first point, start drawing
-                idlePhase = 1;
-                idlePointIndex = 1;
-                iTargetX = idlePoints[1].x;
-                iTargetY = idlePoints[1].y;
-            } else {
-                // Finished drawing to a point
-                if (idlePointIndex < idlePoints.length - 1) {
-                    // Draw line segment we just completed
-                    drawIdleLine(
-                        idlePoints[idlePointIndex - 1].x, idlePoints[idlePointIndex - 1].y,
-                        idlePoints[idlePointIndex].x, idlePoints[idlePointIndex].y
-                    );
-                    idlePointIndex++;
-                    iTargetX = idlePoints[idlePointIndex].x;
-                    iTargetY = idlePoints[idlePointIndex].y;
-                } else {
-                    // Shape complete — draw last segment
-                    drawIdleLine(
-                        idlePoints[idlePointIndex - 1].x, idlePoints[idlePointIndex - 1].y,
-                        idlePoints[idlePointIndex].x, idlePoints[idlePointIndex].y
-                    );
-                    // Start fading old lines, begin new shape after pause
-                    setTimeout(() => { if (idleActive) nextIdleShape(); }, 800);
-                    // Fade out completed shape lines after 3s
-                    const currentLines = [...idleLines];
-                    setTimeout(() => {
-                        currentLines.forEach(line => {
-                            line.style.transition = 'opacity 1.5s ease';
-                            line.style.opacity = '0';
-                            setTimeout(() => { if (line.parentNode) line.parentNode.removeChild(line); }, 1500);
-                        });
-                        idleLines = idleLines.filter(l => !currentLines.includes(l));
-                    }, 3000);
-
-                    idleRAF = requestAnimationFrame(idleLoop);
-                    return;
-                }
-            }
-        }
-
         idleRAF = requestAnimationFrame(idleLoop);
-    }
-
-    function drawIdleLine(x1, y1, x2, y2) {
-        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        line.setAttribute('x1', x1);
-        line.setAttribute('y1', y1);
-        line.setAttribute('x2', x2);
-        line.setAttribute('y2', y2);
-        line.setAttribute('stroke', '#D4AD3E');
-        line.setAttribute('stroke-width', '1.2');
-        line.setAttribute('stroke-linecap', 'round');
-        line.setAttribute('opacity', '0.6');
-        // Animate: draw the line
-        const len = Math.hypot(x2 - x1, y2 - y1);
-        line.setAttribute('stroke-dasharray', len);
-        line.setAttribute('stroke-dashoffset', len);
-        idleSVG.appendChild(line);
-        idleLines.push(line);
-        // Trigger draw animation
-        requestAnimationFrame(() => {
-            line.style.transition = 'stroke-dashoffset 0.4s ease';
-            line.setAttribute('stroke-dashoffset', '0');
-        });
     }
 
     function stopIdle() {
         idleActive = false;
         if (idleRAF) cancelAnimationFrame(idleRAF);
-        idleSVG.style.opacity = '0';
+        activeLine = null;
+        stepFrom = null;
         cursor.classList.remove('idle-drawing');
         trail.classList.remove('idle-drawing');
-        // Clean up lines after fade
+
+        // Slowly fade all drawn lines, then clean up
+        const allLines = idleSVG.querySelectorAll('line');
+        allLines.forEach(line => {
+            line.style.transition = 'opacity 3s ease';
+            line.style.opacity = '0';
+        });
         setTimeout(() => {
-            while (idleSVG.firstChild) idleSVG.removeChild(idleSVG.firstChild);
-            idleLines = [];
-        }, 900);
+            idleSVG.style.opacity = '0';
+            setTimeout(() => {
+                while (idleSVG.firstChild) idleSVG.removeChild(idleSVG.firstChild);
+                idleSteps = [];
+                idleStepIndex = 0;
+            }, 900);
+        }, 3000);
     }
 
     // Reset idle on any activity
@@ -240,6 +244,5 @@
     document.addEventListener('keydown', resetIdleTimer);
     document.addEventListener('scroll', resetIdleTimer);
 
-    // Start the idle timer
     resetIdleTimer();
 })();

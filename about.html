@@ -129,10 +129,10 @@
             opacity: 0.3;
         }
 
-        .hero-diamond.hd1 { left: 8%; top: calc(10% + 200px); animation: diamondPop 0.5s ease 1.8s forwards; }
-        .hero-diamond.hd2 { right: 8%; top: calc(15% + 160px); animation: diamondPop 0.5s ease 2s forwards; }
-        .hero-diamond.hd3 { left: 15%; top: calc(30% + 100px); animation: diamondPop 0.5s ease 2.2s forwards; }
-        .hero-diamond.hd4 { right: 15%; top: calc(35% + 80px); animation: diamondPop 0.5s ease 2.4s forwards; }
+        .hero-diamond.hd1 { left: 8%; top: calc(10% + 200px); animation: diamondPop 0.5s ease 1.8s forwards, adlDiamondDrift1 10s ease-in-out 2.3s infinite; }
+        .hero-diamond.hd2 { right: 8%; top: calc(15% + 160px); animation: diamondPop 0.5s ease 2s forwards, adlDiamondDrift2 12s ease-in-out 2.5s infinite; }
+        .hero-diamond.hd3 { left: 15%; top: calc(30% + 100px); animation: diamondPop 0.5s ease 2.2s forwards, adlDiamondDrift1 11s ease-in-out 2.7s infinite; }
+        .hero-diamond.hd4 { right: 15%; top: calc(35% + 80px); animation: diamondPop 0.5s ease 2.4s forwards, adlDiamondDrift2 9s ease-in-out 2.9s infinite; }
 
         @keyframes diamondPop { to { transform: rotate(45deg) scale(1); } }
 
@@ -243,6 +243,27 @@
         .about-divider.visible .adl:nth-child(4) { transition-delay: 0.1s; }
         .about-divider.visible .adl:nth-child(5) { transition-delay: 0.3s; }
         .about-divider.visible .adl:nth-child(6) { transition-delay: 0.2s; }
+
+        /* Continuous slow drift for divider lines */
+        .about-divider.visible .adl:nth-child(1) { animation: adlDrift1 10s ease-in-out 1s infinite; }
+        .about-divider.visible .adl:nth-child(2) { animation: adlDrift2 12s ease-in-out 1.3s infinite; }
+        .about-divider.visible .adl:nth-child(3) { animation: adlDrift3 11s ease-in-out 0.8s infinite; }
+        .about-divider.visible .adl:nth-child(4) { animation: adlDrift4 13s ease-in-out 1.5s infinite; }
+        .about-divider.visible .adl:nth-child(5) { animation: adlDrift5 14s ease-in-out 0.5s infinite; }
+        .about-divider.visible .adl:nth-child(6) { animation: adlDrift6 12s ease-in-out 1.8s infinite; }
+        .about-divider.visible .adl:nth-child(7) { animation: adlDrift1 11s ease-in-out 2s infinite; }
+
+        .about-divider.visible .ad-diamond:nth-of-type(1) { animation: adlDiamondDrift1 9s ease-in-out 1.2s infinite; }
+        .about-divider.visible .ad-diamond:nth-of-type(2) { animation: adlDiamondDrift2 11s ease-in-out 1.6s infinite; }
+
+        @keyframes adlDrift1 { 0%,100% { translate: 0 0; } 50% { translate: 5px 8px; } }
+        @keyframes adlDrift2 { 0%,100% { translate: 0 0; } 50% { translate: -7px 6px; } }
+        @keyframes adlDrift3 { 0%,100% { translate: 0 0; } 50% { translate: 8px -5px; } }
+        @keyframes adlDrift4 { 0%,100% { translate: 0 0; } 50% { translate: -4px -7px; } }
+        @keyframes adlDrift5 { 0%,100% { translate: 0 0; } 50% { translate: 6px 4px; } }
+        @keyframes adlDrift6 { 0%,100% { translate: 0 0; } 50% { translate: -6px 5px; } }
+        @keyframes adlDiamondDrift1 { 0%,100% { translate: 0 0; } 33% { translate: 4px 6px; } 66% { translate: -3px 2px; } }
+        @keyframes adlDiamondDrift2 { 0%,100% { translate: 0 0; } 33% { translate: -5px 3px; } 66% { translate: 3px -4px; } }
 
         /* Values grid */
         .about-values {
