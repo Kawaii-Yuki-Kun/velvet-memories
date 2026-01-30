@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Gift Experience</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-diamond"></div>
+        <div class="preloader-text">Loading</div>
+    </div>
+
+    <header class="page-header">
+        <a href="index.html"><img src="assets/images/logo velvet memories-02.png" alt="Velvet Memories" class="header-logo"></a>
+        <h1>Personalized Gift Experience</h1>
+    </header>
+
+    <section class="gift-page">
+        <div class="gift-quiz" id="giftQuiz">
+            <div class="progress-dots" id="progressDots">
+                <div class="progress-dot active"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+            </div>
+
+            <!-- Step 1: Occasion (auto-advance on click) -->
+            <div class="quiz-step active" data-step="1" data-auto="true">
+                <h3>What's the occasion?</h3>
+                <div class="quiz-options">
+                    <button class="quiz-option" data-key="occasion" data-value="Love">Love</button>
+                    <button class="quiz-option" data-key="occasion" data-value="Birthday">Birthday</button>
+                    <button class="quiz-option" data-key="occasion" data-value="Anniversary">Anniversary</button>
+                    <button class="quiz-option" data-key="occasion" data-value="Thank You">Thank You</button>
+                    <button class="quiz-option" data-key="occasion" data-value="Congratulations">Congratulations</button>
+                    <button class="quiz-option" data-key="occasion" data-value="Just Because">Just Because</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Box Contents (text — manual next) -->
+            <div class="quiz-step" data-step="2">
+                <h3>What do you want in the box?</h3>
+                <textarea class="quiz-textarea" id="boxContents" placeholder="e.g. 12 assorted truffles, 6 pralines, a small chocolate heart..."></textarea>
+                <div class="quiz-nav">
+                    <button class="btn-quiz-nav" onclick="prevStep()">&#8592; Back</button>
+                    <button class="btn-quiz-nav" onclick="nextStep()">Next &#8594;</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Color Theme (auto-advance on click) -->
+            <div class="quiz-step" data-step="3" data-auto="true">
+                <h3>Pick a color theme</h3>
+                <div class="quiz-options">
+                    <button class="quiz-option" data-key="color" data-value="Red & Gold">Red & Gold</button>
+                    <button class="quiz-option" data-key="color" data-value="Black & Gold">Black & Gold</button>
+                    <button class="quiz-option" data-key="color" data-value="White & Pink">White & Pink</button>
+                    <button class="quiz-option" data-key="color" data-value="Pastel">Pastel</button>
+                    <button class="quiz-option" data-key="color" data-value="Classic Brown">Classic Brown</button>
+                </div>
+                <div class="quiz-nav">
+                    <button class="btn-quiz-nav" onclick="prevStep()">&#8592; Back</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Extras (multi-select — manual next) -->
+            <div class="quiz-step" data-step="4">
+                <h3>Add extras to the gift?</h3>
+                <div class="quiz-options multi-select">
+                    <button class="quiz-option" data-key="extras" data-value="Roses">Roses</button>
+                    <button class="quiz-option" data-key="extras" data-value="Teddy Bear">Teddy Bear</button>
+                    <button class="quiz-option" data-key="extras" data-value="Balloons">Balloons</button>
+                    <button class="quiz-option" data-key="extras" data-value="Ribbon & Bow">Ribbon & Bow</button>
+                    <button class="quiz-option" data-key="extras" data-value="Personal Note">Personal Note</button>
+                    <button class="quiz-option" data-key="extras" data-value="None">None</button>
+                </div>
+                <div class="quiz-nav">
+                    <button class="btn-quiz-nav" onclick="prevStep()">&#8592; Back</button>
+                    <button class="btn-quiz-nav" onclick="nextStep()">Next &#8594;</button>
+                </div>
+            </div>
+
+            <!-- Step 5: Message (text — manual generate) -->
+            <div class="quiz-step" data-step="5">
+                <h3>Any special message?</h3>
+                <textarea class="quiz-textarea" id="specialMessage" placeholder="Write a personal message to include with the gift..."></textarea>
+                <div class="quiz-nav">
+                    <button class="btn-quiz-nav" onclick="prevStep()">&#8592; Back</button>
+                    <button class="btn-quiz-nav" onclick="generateGift()">Generate Preview &#10024;</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gift Preview -->
+        <div class="gift-preview" id="giftPreview">
+            <h3 class="gift-preview-title">Your Gift Box</h3>
+            <div class="gift-preview-card" id="previewCard">
+                <div class="gift-preview-box" id="previewBox">
+                    <div class="gift-preview-ribbon"></div>
+                    <h4 id="giftOccasion">—</h4>
+                    <div class="gift-preview-divider"></div>
+                    <p id="giftDetails">—</p>
+                </div>
+            </div>
+            <p class="gift-preview-note">AI-generated preview concept</p>
+            <button class="btn-order" onclick="orderGift()">Ready to Order</button>
+        </div>
+    </section>
+
+    <div class="back-accordion" id="backAccordion">
+        <button class="back-accordion-toggle" id="backToggle">&#8592;</button>
+        <nav class="back-accordion-menu">
+            <a href="index.html">Home</a>
+            <a href="chocolate-collection.html">Chocolate Collection</a>
+            <a href="setup-decorations.html">Setup Decorations</a>
+            <a href="custom-design.html">Custom Chocolate Design</a>
+            <a href="workshop.html">Mini Workshop</a>
+            <a href="personalized-gift.html" class="current">Personalized Gift</a>
+        </nav>
+    </div>
+    <script>document.getElementById('backToggle').addEventListener('click',()=>document.getElementById('backAccordion').classList.toggle('open'));</script>
+
+    <script>
+        const giftState = { occasion: '', contents: '', color: '', extras: [], message: '' };
+        let currentStep = 1;
+        const totalSteps = 5;
+
+        // Quiz option clicks
+        document.querySelectorAll('.quiz-option').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const key = btn.getAttribute('data-key');
+                const value = btn.getAttribute('data-value');
+                const isMulti = btn.closest('.multi-select');
+
+                if (isMulti) {
+                    if (value === 'None') {
+                        btn.closest('.quiz-options').querySelectorAll('.quiz-option').forEach(b => b.classList.remove('selected'));
+                        btn.classList.add('selected');
+                        giftState.extras = [];
+                    } else {
+                        btn.closest('.quiz-options').querySelector('[data-value="None"]')?.classList.remove('selected');
+                        btn.classList.toggle('selected');
+                        if (btn.classList.contains('selected')) {
+                            giftState.extras.push(value);
+                        } else {
+                            giftState.extras = giftState.extras.filter(e => e !== value);
+                        }
+                    }
+                } else {
+                    btn.closest('.quiz-options').querySelectorAll('.quiz-option').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    giftState[key] = value;
+
+                    // Auto-advance for non-multi, non-text steps
+                    const step = btn.closest('.quiz-step');
+                    if (step && step.getAttribute('data-auto') === 'true') {
+                        setTimeout(() => nextStep(), 400);
+                    }
+                }
+            });
+        });
+
+        function updateDots() {
+            document.querySelectorAll('.progress-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i < currentStep);
+            });
+        }
+
+        function showStep(step) {
+            const outgoing = document.querySelector('.quiz-step.active');
+            const incoming = document.querySelector(`.quiz-step[data-step="${step}"]`);
+            if (!incoming) return;
+
+            if (outgoing) {
+                outgoing.classList.add('fade-out');
+                setTimeout(() => {
+                    outgoing.classList.remove('active', 'fade-out');
+                    incoming.classList.add('active');
+                }, 350);
+            } else {
+                incoming.classList.add('active');
+            }
+            updateDots();
+        }
+
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                showStep(currentStep);
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        }
+
+        function generateGift() {
+            giftState.contents = document.getElementById('boxContents').value;
+            giftState.message = document.getElementById('specialMessage').value;
+
+            const colorMap = {
+                'Red & Gold': 'linear-gradient(135deg, #861b1c, #C9A24D)',
+                'Black & Gold': 'linear-gradient(135deg, #1a1a1a, #C9A24D)',
+                'White & Pink': 'linear-gradient(135deg, #f5e6e8, #e8b4c8)',
+                'Pastel': 'linear-gradient(135deg, #b8d4e3, #f5d5e0)',
+                'Classic Brown': 'linear-gradient(135deg, #3B1C0E, #7B4B2A)',
+            };
+
+            const box = document.getElementById('previewBox');
+            box.style.background = colorMap[giftState.color] || colorMap['Red & Gold'];
+
+            const isLight = ['White & Pink', 'Pastel'].includes(giftState.color);
+            box.style.color = isLight ? '#1a0a0a' : '#fff';
+
+            document.getElementById('giftOccasion').textContent = giftState.occasion || 'Gift Box';
+
+            let details = '';
+            if (giftState.contents) details += giftState.contents + '\n';
+            if (giftState.extras.length) details += 'With: ' + giftState.extras.join(', ') + '\n';
+            if (giftState.message) details += '\u201C' + giftState.message + '\u201D';
+            document.getElementById('giftDetails').textContent = details || 'Custom chocolate gift box';
+
+            // Smooth transition from quiz to preview
+            const quiz = document.getElementById('giftQuiz');
+            quiz.style.opacity = '0';
+            quiz.style.transform = 'translateY(-20px)';
+            setTimeout(() => {
+                quiz.style.display = 'none';
+                const preview = document.getElementById('giftPreview');
+                preview.classList.add('visible');
+            }, 500);
+        }
+
+        function orderGift() {
+            const parts = [
+                `Occasion: ${giftState.occasion}`,
+                `Contents: ${giftState.contents}`,
+                `Color: ${giftState.color}`,
+                `Extras: ${giftState.extras.join(', ') || 'None'}`,
+                `Message: ${giftState.message || 'None'}`
+            ];
+            const msg = encodeURIComponent(`Hi! I'd like to order a personalized gift:\n${parts.join('\n')}`);
+            window.open(`https://wa.me/?text=${msg}`, '_blank');
+        }
+    </script>
+    <script src="js/preloader.js"></script>
+    <script src="js/cursor.js"></script>
+</body>
+</html>

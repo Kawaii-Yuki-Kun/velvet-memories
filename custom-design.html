@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Chocolate Design</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-diamond"></div>
+        <div class="preloader-text">Loading</div>
+    </div>
+
+    <header class="page-header">
+        <a href="index.html"><img src="assets/images/logo velvet memories-02.png" alt="Velvet Memories" class="header-logo"></a>
+        <h1>Custom Chocolate Design</h1>
+    </header>
+
+    <section class="design-studio">
+        <div class="design-controls">
+            <div class="design-group">
+                <label>Shape</label>
+                <div class="design-options" id="shapeOptions">
+                    <button class="design-option" data-value="sphere">Sphere</button>
+                    <button class="design-option" data-value="heart">Heart</button>
+                    <button class="design-option" data-value="cube">Cube</button>
+                    <button class="design-option" data-value="diamond">Diamond</button>
+                    <button class="design-option" data-value="flower">Flower</button>
+                </div>
+            </div>
+
+            <div class="design-group">
+                <label>Color</label>
+                <div class="design-options" id="colorOptions">
+                    <div class="color-circle" data-value="#3B1C0E" style="background:#3B1C0E" title="Dark Chocolate"></div>
+                    <div class="color-circle" data-value="#7B4B2A" style="background:#7B4B2A" title="Milk Chocolate"></div>
+                    <div class="color-circle" data-value="#F5E6C8" style="background:#F5E6C8" title="White Chocolate"></div>
+                    <div class="color-circle" data-value="#861b1c" style="background:#861b1c" title="Ruby"></div>
+                    <div class="color-circle" data-value="#C9A24D" style="background:#C9A24D" title="Gold"></div>
+                    <div class="color-circle" data-value="#2D2D2D" style="background:#2D2D2D" title="Noir"></div>
+                </div>
+            </div>
+
+            <div class="design-group">
+                <label>Filling / Flavor</label>
+                <div class="design-options" id="flavorOptions">
+                    <button class="design-option" data-value="Ganache">Ganache</button>
+                    <button class="design-option" data-value="Praline">Praline</button>
+                    <button class="design-option" data-value="Caramel">Caramel</button>
+                    <button class="design-option" data-value="Raspberry">Raspberry</button>
+                    <button class="design-option" data-value="Pistachio">Pistachio</button>
+                    <button class="design-option" data-value="Coffee">Coffee</button>
+                </div>
+            </div>
+
+            <div class="design-group">
+                <label>What's on Top</label>
+                <div class="design-options" id="toppingOptions">
+                    <button class="design-option" data-value="Gold Leaf">Gold Leaf</button>
+                    <button class="design-option" data-value="Cocoa Dust">Cocoa Dust</button>
+                    <button class="design-option" data-value="Crushed Nuts">Crushed Nuts</button>
+                    <button class="design-option" data-value="Edible Flowers">Edible Flowers</button>
+                    <button class="design-option" data-value="Logo Stamp">Logo Stamp</button>
+                    <button class="design-option" data-value="Nothing">Nothing</button>
+                </div>
+            </div>
+
+            <button class="btn-order" onclick="orderDesign()" style="margin-top:30px;">Order Now</button>
+        </div>
+
+        <div class="design-preview">
+            <div class="preview-chocolate" id="previewChocolate">
+                <span class="shape-label" id="previewShape">Select Shape</span>
+                <span class="flavor-label" id="previewFlavor">—</span>
+                <span class="topping-label" id="previewTopping">—</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="back-accordion" id="backAccordion">
+        <button class="back-accordion-toggle" id="backToggle">&#8592;</button>
+        <nav class="back-accordion-menu">
+            <a href="index.html">Home</a>
+            <a href="chocolate-collection.html">Chocolate Collection</a>
+            <a href="setup-decorations.html">Setup Decorations</a>
+            <a href="custom-design.html" class="current">Custom Chocolate Design</a>
+            <a href="workshop.html">Mini Workshop</a>
+            <a href="personalized-gift.html">Personalized Gift</a>
+        </nav>
+    </div>
+    <script>document.getElementById('backToggle').addEventListener('click',()=>document.getElementById('backAccordion').classList.toggle('open'));</script>
+
+    <script>
+        const state = { shape: '', color: '', flavor: '', topping: '' };
+
+        function setupGroup(containerId, key) {
+            const container = document.getElementById(containerId);
+            container.querySelectorAll('.design-option, .color-circle').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    container.querySelectorAll('.design-option, .color-circle').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    state[key] = btn.getAttribute('data-value');
+                    updatePreview();
+                });
+            });
+        }
+
+        setupGroup('shapeOptions', 'shape');
+        setupGroup('colorOptions', 'color');
+        setupGroup('flavorOptions', 'flavor');
+        setupGroup('toppingOptions', 'topping');
+
+        function updatePreview() {
+            const preview = document.getElementById('previewChocolate');
+            const shapeLabel = document.getElementById('previewShape');
+            const flavorLabel = document.getElementById('previewFlavor');
+            const toppingLabel = document.getElementById('previewTopping');
+
+            if (state.color) {
+                preview.style.background = `radial-gradient(circle at 30% 30%, ${state.color}, ${darken(state.color)})`;
+                preview.style.borderColor = state.color === '#C9A24D' ? '#fff' : '#C9A24D';
+            }
+
+            shapeLabel.textContent = state.shape || 'Select Shape';
+            flavorLabel.textContent = state.flavor ? `Filled with ${state.flavor}` : '—';
+            toppingLabel.textContent = state.topping && state.topping !== 'Nothing' ? `Topped with ${state.topping}` : state.topping === 'Nothing' ? 'Clean finish' : '—';
+
+            // Shape morphing
+            if (state.shape === 'heart') {
+                preview.style.borderRadius = '50% 50% 50% 0';
+                preview.style.transform = 'rotate(-45deg)';
+            } else if (state.shape === 'cube') {
+                preview.style.borderRadius = '15px';
+                preview.style.transform = 'rotate(0)';
+            } else if (state.shape === 'diamond') {
+                preview.style.borderRadius = '15px';
+                preview.style.transform = 'rotate(45deg)';
+            } else {
+                preview.style.borderRadius = '50%';
+                preview.style.transform = 'rotate(0)';
+            }
+        }
+
+        function darken(hex) {
+            const num = parseInt(hex.replace('#', ''), 16);
+            const r = Math.max((num >> 16) - 40, 0);
+            const g = Math.max(((num >> 8) & 0x00FF) - 40, 0);
+            const b = Math.max((num & 0x0000FF) - 40, 0);
+            return `rgb(${r},${g},${b})`;
+        }
+
+        function orderDesign() {
+            const parts = [];
+            if (state.shape) parts.push(`Shape: ${state.shape}`);
+            if (state.color) parts.push(`Color: ${state.color}`);
+            if (state.flavor) parts.push(`Filling: ${state.flavor}`);
+            if (state.topping) parts.push(`Topping: ${state.topping}`);
+            const msg = encodeURIComponent(`Hi! I'd like to order a custom chocolate:\n${parts.join('\n')}`);
+            window.open(`https://wa.me/?text=${msg}`, '_blank');
+        }
+    </script>
+    <script src="js/preloader.js"></script>
+    <script src="js/cursor.js"></script>
+</body>
+</html>
