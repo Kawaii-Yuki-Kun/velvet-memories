@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="assets/images/VM White logo WN.png">
 </head>
 <body>
 
@@ -17,9 +18,12 @@
     </div>
 
     <header class="page-header">
-        <a href="index.html"><img src="assets/images/logo velvet memories-02.png" alt="Velvet Memories" class="header-logo"></a>
-        <h1>Custom Chocolate Design</h1>
+        <a href="index.html"><img src="assets/images/VM White logo WN.png" alt="Velvet Memories" class="header-logo"></a>
+        <div class="header-breadcrumb">
+            <span class="breadcrumb-current">Custom Chocolate Design</span>
+        </div>
     </header>
+
 
     <section class="design-studio">
         <div class="design-controls">
@@ -41,32 +45,141 @@
                     <div class="color-circle" data-value="#7B4B2A" style="background:#7B4B2A" title="Milk Chocolate"></div>
                     <div class="color-circle" data-value="#F5E6C8" style="background:#F5E6C8" title="White Chocolate"></div>
                     <div class="color-circle" data-value="#861b1c" style="background:#861b1c" title="Ruby"></div>
-                    <div class="color-circle" data-value="#C9A24D" style="background:#C9A24D" title="Gold"></div>
+                    <div class="color-circle" data-value="#D4AD3E" style="background:#D4AD3E" title="Gold"></div>
                     <div class="color-circle" data-value="#2D2D2D" style="background:#2D2D2D" title="Noir"></div>
                 </div>
             </div>
 
             <div class="design-group">
                 <label>Filling / Flavor</label>
-                <div class="design-options" id="flavorOptions">
-                    <button class="design-option" data-value="Ganache">Ganache</button>
-                    <button class="design-option" data-value="Praline">Praline</button>
-                    <button class="design-option" data-value="Caramel">Caramel</button>
-                    <button class="design-option" data-value="Raspberry">Raspberry</button>
-                    <button class="design-option" data-value="Pistachio">Pistachio</button>
-                    <button class="design-option" data-value="Coffee">Coffee</button>
+                <div class="design-options icon-options" id="flavorOptions">
+                    <button class="design-option design-icon-option" data-value="Ganache" title="Ganache">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1">
+                            <path d="M6 14c0 0 2-6 10-6s10 6 10 6"/>
+                            <path d="M4 14c0 8 5 14 12 14s12-6 12-14"/>
+                            <path d="M10 18c0 2 3 4 6 4s6-2 6-4"/>
+                        </svg>
+                        <span>Ganache</span>
+                    </button>
+                    <button class="design-option design-icon-option" data-value="Praline" title="Praline">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1">
+                            <ellipse cx="16" cy="16" rx="10" ry="8"/>
+                            <path d="M10 12c2 4 8 4 12 0"/>
+                            <circle cx="13" cy="17" r="1.5"/>
+                            <circle cx="19" cy="17" r="1.5"/>
+                            <circle cx="16" cy="20" r="1"/>
+                        </svg>
+                        <span>Praline</span>
+                    </button>
+                    <button class="design-option design-icon-option" data-value="Caramel" title="Caramel">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1">
+                            <path d="M8 10c0 0 0 12 8 16 8-4 8-16 8-16"/>
+                            <path d="M11 14c3 2 7 2 10 0"/>
+                            <path d="M12 19c2 1.5 6 1.5 8 0"/>
+                        </svg>
+                        <span>Caramel</span>
+                    </button>
+                    <button class="design-option design-icon-option" data-value="Raspberry" title="Raspberry">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1">
+                            <circle cx="16" cy="18" r="2"/>
+                            <circle cx="12.5" cy="16.5" r="2"/>
+                            <circle cx="19.5" cy="16.5" r="2"/>
+                            <circle cx="14" cy="13.5" r="2"/>
+                            <circle cx="18" cy="13.5" r="2"/>
+                            <circle cx="16" cy="11" r="1.5"/>
+                            <path d="M14 8l2-3 2 3"/>
+                            <path d="M13 9h6"/>
+                        </svg>
+                        <span>Raspberry</span>
+                    </button>
+                    <button class="design-option design-icon-option" data-value="Pistachio" title="Pistachio">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1">
+                            <path d="M16 28c-3-4-8-8-6-16C12 6 16 4 16 4s4 2 6 8c2 8-3 12-6 16z"/>
+                            <path d="M16 4v24"/>
+                            <path d="M12 14c2 1 6 1 8 0"/>
+                        </svg>
+                        <span>Pistachio</span>
+                    </button>
+                    <button class="design-option design-icon-option" data-value="Coffee" title="Coffee">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1">
+                            <path d="M7 12h16v10a6 6 0 01-6 6h-4a6 6 0 01-6-6V12z"/>
+                            <path d="M23 14h2a3 3 0 010 6h-2"/>
+                            <path d="M11 8c0-2 2-2 2-4"/>
+                            <path d="M15 8c0-2 2-2 2-4"/>
+                            <path d="M19 8c0-2 2-2 2-4"/>
+                        </svg>
+                        <span>Coffee</span>
+                    </button>
                 </div>
             </div>
 
             <div class="design-group">
                 <label>What's on Top</label>
-                <div class="design-options" id="toppingOptions">
-                    <button class="design-option" data-value="Gold Leaf">Gold Leaf</button>
-                    <button class="design-option" data-value="Cocoa Dust">Cocoa Dust</button>
-                    <button class="design-option" data-value="Crushed Nuts">Crushed Nuts</button>
-                    <button class="design-option" data-value="Edible Flowers">Edible Flowers</button>
-                    <button class="design-option" data-value="Logo Stamp">Logo Stamp</button>
-                    <button class="design-option" data-value="Nothing">Nothing</button>
+                <div class="design-options icon-options" id="toppingOptions">
+                    <button class="design-option design-icon-option" data-value="Gold Leaf" title="Gold Leaf">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1">
+                            <path d="M16 28V8"/>
+                            <path d="M16 8c-6 0-10 4-8 10 1-4 5-6 8-6"/>
+                            <path d="M16 8c6 0 10 4 8 10-1-4-5-6-8-6"/>
+                            <path d="M12 4c2 2 4 4 4 4s2-2 4-4"/>
+                        </svg>
+                        <span>Gold Leaf</span>
+                    </button>
+                    <button class="design-option design-icon-option" data-value="Cocoa Dust" title="Cocoa Dust">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1">
+                            <circle cx="10" cy="10" r="1"/>
+                            <circle cx="16" cy="8" r="1.2"/>
+                            <circle cx="22" cy="11" r="0.8"/>
+                            <circle cx="8" cy="16" r="1"/>
+                            <circle cx="14" cy="14" r="0.8"/>
+                            <circle cx="20" cy="16" r="1.2"/>
+                            <circle cx="26" cy="14" r="0.6"/>
+                            <circle cx="11" cy="22" r="1.2"/>
+                            <circle cx="18" cy="20" r="1"/>
+                            <circle cx="24" cy="22" r="0.8"/>
+                            <circle cx="15" cy="26" r="0.6"/>
+                            <circle cx="21" cy="26" r="1"/>
+                        </svg>
+                        <span>Cocoa Dust</span>
+                    </button>
+                    <button class="design-option design-icon-option" data-value="Crushed Nuts" title="Crushed Nuts">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1">
+                            <path d="M8 14l4-3 3 2 4-4 3 3 3-2"/>
+                            <path d="M6 20l3-2 4 3 3-4 4 2 3-3 3 2"/>
+                            <path d="M10 26l3-3 3 2 4-3 3 3"/>
+                        </svg>
+                        <span>Crushed Nuts</span>
+                    </button>
+                    <button class="design-option design-icon-option" data-value="Edible Flowers" title="Edible Flowers">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1">
+                            <circle cx="16" cy="14" r="2.5"/>
+                            <ellipse cx="16" cy="8" rx="2.5" ry="3.5"/>
+                            <ellipse cx="21.5" cy="11.5" rx="2.5" ry="3.5" transform="rotate(72 21.5 11.5)"/>
+                            <ellipse cx="19.5" cy="18" rx="2.5" ry="3.5" transform="rotate(144 19.5 18)"/>
+                            <ellipse cx="12.5" cy="18" rx="2.5" ry="3.5" transform="rotate(-144 12.5 18)"/>
+                            <ellipse cx="10.5" cy="11.5" rx="2.5" ry="3.5" transform="rotate(-72 10.5 11.5)"/>
+                            <path d="M16 20v8"/>
+                        </svg>
+                        <span>Edible Flowers</span>
+                    </button>
+                    <button class="design-option design-icon-option" data-value="Logo Stamp" title="Logo Stamp">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1">
+                            <rect x="8" y="6" width="16" height="16" rx="2"/>
+                            <path d="M12 14l2.5-4 2.5 4"/>
+                            <circle cx="20" cy="12" r="1.5"/>
+                            <path d="M12 26h8"/>
+                            <path d="M14 22v4"/>
+                            <path d="M18 22v4"/>
+                        </svg>
+                        <span>Logo Stamp</span>
+                    </button>
+                    <button class="design-option design-icon-option" data-value="Nothing" title="Nothing">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1">
+                            <circle cx="16" cy="16" r="10"/>
+                            <line x1="9" y1="9" x2="23" y2="23"/>
+                        </svg>
+                        <span>Nothing</span>
+                    </button>
                 </div>
             </div>
 
@@ -74,17 +187,23 @@
         </div>
 
         <div class="design-preview">
-            <div class="preview-chocolate" id="previewChocolate">
-                <span class="shape-label" id="previewShape">Select Shape</span>
-                <span class="flavor-label" id="previewFlavor">—</span>
-                <span class="topping-label" id="previewTopping">—</span>
+            <div class="preview-shape-wrapper" id="previewWrapper">
+                <div class="preview-chocolate" id="previewChocolate">
+                    <div class="preview-content" id="previewContent">
+                        <span class="shape-label" id="previewShape">Select Shape</span>
+                        <span class="flavor-label" id="previewFlavor"></span>
+                        <span class="topping-label" id="previewTopping"></span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <div class="back-accordion" id="backAccordion">
-        <button class="back-accordion-toggle" id="backToggle">&#8592;</button>
-        <nav class="back-accordion-menu">
+    <div class="nav-accordion" id="navAccordion">
+        <button class="nav-accordion-toggle" id="navToggle">
+            <span></span><span></span><span></span>
+        </button>
+        <nav class="nav-accordion-menu">
             <a href="index.html">Home</a>
             <a href="chocolate-collection.html">Chocolate Collection</a>
             <a href="setup-decorations.html">Setup Decorations</a>
@@ -93,7 +212,23 @@
             <a href="personalized-gift.html">Personalized Gift</a>
         </nav>
     </div>
-    <script>document.getElementById('backToggle').addEventListener('click',()=>document.getElementById('backAccordion').classList.toggle('open'));</script>
+
+    <footer class="site-footer">
+        <img src="assets/images/VM White logo WN.png" alt="Velvet Memories" class="footer-logo">
+        <div class="footer-brand">Velvet Memories</div>
+        <nav class="footer-links">
+            <a href="chocolate-collection.html">Chocolate Collection</a>
+            <a href="setup-decorations.html">Setup Decorations</a>
+            <a href="custom-design.html">Custom Design</a>
+            <a href="workshop.html">Workshop</a>
+            <a href="personalized-gift.html">Personalized Gift</a>
+        </nav>
+        <div class="footer-divider"></div>
+        <p class="footer-copy">&copy; 2026 Velvet Memories. All rights reserved.</p>
+    </footer>
+    <script>document.getElementById('navToggle').addEventListener('click',()=>document.getElementById('navAccordion').classList.toggle('open'));</script>
+    <script>window.addEventListener('scroll',()=>document.querySelector('.page-header').classList.toggle('scrolled',window.scrollY>50));</script>
+    <script>window.addEventListener('scroll',()=>document.querySelector('.page-header').classList.toggle('scrolled',window.scrollY>50));</script>
 
     <script>
         const state = { shape: '', color: '', flavor: '', topping: '' };
@@ -115,35 +250,75 @@
         setupGroup('flavorOptions', 'flavor');
         setupGroup('toppingOptions', 'topping');
 
+        function isLightColor(hex) {
+            const num = parseInt(hex.replace('#', ''), 16);
+            const r = (num >> 16) & 255;
+            const g = (num >> 8) & 255;
+            const b = num & 255;
+            const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+            return luminance > 0.55;
+        }
+
         function updatePreview() {
+            const wrapper = document.getElementById('previewWrapper');
             const preview = document.getElementById('previewChocolate');
+            const content = document.getElementById('previewContent');
             const shapeLabel = document.getElementById('previewShape');
             const flavorLabel = document.getElementById('previewFlavor');
             const toppingLabel = document.getElementById('previewTopping');
 
+            // Color
             if (state.color) {
                 preview.style.background = `radial-gradient(circle at 30% 30%, ${state.color}, ${darken(state.color)})`;
-                preview.style.borderColor = state.color === '#C9A24D' ? '#fff' : '#C9A24D';
+                preview.style.borderColor = state.color === '#D4AD3E' ? '#fff' : '#D4AD3E';
+
+                // Text contrast
+                const light = isLightColor(state.color);
+                content.style.color = light ? '#1a0a0a' : '#fff';
+                flavorLabel.style.color = light ? 'rgba(26,10,10,0.6)' : 'var(--gold)';
+                toppingLabel.style.color = light ? 'rgba(26,10,10,0.5)' : 'rgba(255,255,255,0.6)';
             }
 
             shapeLabel.textContent = state.shape || 'Select Shape';
-            flavorLabel.textContent = state.flavor ? `Filled with ${state.flavor}` : '—';
-            toppingLabel.textContent = state.topping && state.topping !== 'Nothing' ? `Topped with ${state.topping}` : state.topping === 'Nothing' ? 'Clean finish' : '—';
 
-            // Shape morphing
-            if (state.shape === 'heart') {
-                preview.style.borderRadius = '50% 50% 50% 0';
-                preview.style.transform = 'rotate(-45deg)';
-            } else if (state.shape === 'cube') {
-                preview.style.borderRadius = '15px';
-                preview.style.transform = 'rotate(0)';
-            } else if (state.shape === 'diamond') {
-                preview.style.borderRadius = '15px';
-                preview.style.transform = 'rotate(45deg)';
-            } else {
-                preview.style.borderRadius = '50%';
-                preview.style.transform = 'rotate(0)';
+            // Only show shape name in preview — no flavor/topping text or icons
+            flavorLabel.innerHTML = '';
+            toppingLabel.innerHTML = '';
+
+            // Shape via clip-path on wrapper with entrance animation
+            wrapper.className = 'preview-shape-wrapper';
+            if (state.shape) {
+                wrapper.classList.add('shape-' + state.shape);
+                // Re-trigger entrance animation
+                wrapper.classList.remove('shape-enter');
+                void wrapper.offsetWidth; // force reflow
+                wrapper.classList.add('shape-enter');
             }
+        }
+
+        function getFlavorIcon(name) {
+            const s = '#D4AD3E';
+            const icons = {
+                'Ganache': `<svg width="36" height="36" viewBox="0 0 32 32" fill="none" stroke="${s}" stroke-width="1.2"><path d="M6 14c0 0 2-6 10-6s10 6 10 6"/><path d="M4 14c0 8 5 14 12 14s12-6 12-14"/><path d="M10 18c0 2 3 4 6 4s6-2 6-4"/></svg>`,
+                'Praline': `<svg width="36" height="36" viewBox="0 0 32 32" fill="none" stroke="${s}" stroke-width="1.2"><ellipse cx="16" cy="16" rx="10" ry="8"/><path d="M10 12c2 4 8 4 12 0"/><circle cx="13" cy="17" r="1.5"/><circle cx="19" cy="17" r="1.5"/><circle cx="16" cy="20" r="1"/></svg>`,
+                'Caramel': `<svg width="36" height="36" viewBox="0 0 32 32" fill="none" stroke="${s}" stroke-width="1.2"><path d="M8 10c0 0 0 12 8 16 8-4 8-16 8-16"/><path d="M11 14c3 2 7 2 10 0"/><path d="M12 19c2 1.5 6 1.5 8 0"/></svg>`,
+                'Raspberry': `<svg width="36" height="36" viewBox="0 0 32 32" fill="none" stroke="${s}" stroke-width="1.2"><circle cx="16" cy="18" r="2"/><circle cx="12.5" cy="16.5" r="2"/><circle cx="19.5" cy="16.5" r="2"/><circle cx="14" cy="13.5" r="2"/><circle cx="18" cy="13.5" r="2"/><circle cx="16" cy="11" r="1.5"/><path d="M14 8l2-3 2 3"/></svg>`,
+                'Pistachio': `<svg width="36" height="36" viewBox="0 0 32 32" fill="none" stroke="${s}" stroke-width="1.2"><path d="M16 28c-3-4-8-8-6-16C12 6 16 4 16 4s4 2 6 8c2 8-3 12-6 16z"/><path d="M16 4v24"/><path d="M12 14c2 1 6 1 8 0"/></svg>`,
+                'Coffee': `<svg width="36" height="36" viewBox="0 0 32 32" fill="none" stroke="${s}" stroke-width="1.2"><path d="M7 12h16v10a6 6 0 01-6 6h-4a6 6 0 01-6-6V12z"/><path d="M23 14h2a3 3 0 010 6h-2"/><path d="M11 8c0-2 2-2 2-4"/><path d="M15 8c0-2 2-2 2-4"/><path d="M19 8c0-2 2-2 2-4"/></svg>`
+            };
+            return icons[name] || '';
+        }
+
+        function getToppingIcon(name) {
+            const s = '#D4AD3E';
+            const icons = {
+                'Gold Leaf': `<svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="${s}" stroke-width="1.2"><path d="M16 28V8"/><path d="M16 8c-6 0-10 4-8 10 1-4 5-6 8-6"/><path d="M16 8c6 0 10 4 8 10-1-4-5-6-8-6"/><path d="M12 4c2 2 4 4 4 4s2-2 4-4"/></svg>`,
+                'Cocoa Dust': `<svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="${s}" stroke-width="1.2"><circle cx="10" cy="10" r="1"/><circle cx="16" cy="8" r="1.2"/><circle cx="22" cy="11" r="0.8"/><circle cx="8" cy="16" r="1"/><circle cx="14" cy="14" r="0.8"/><circle cx="20" cy="16" r="1.2"/><circle cx="11" cy="22" r="1.2"/><circle cx="18" cy="20" r="1"/><circle cx="24" cy="22" r="0.8"/></svg>`,
+                'Crushed Nuts': `<svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="${s}" stroke-width="1.2"><path d="M8 14l4-3 3 2 4-4 3 3 3-2"/><path d="M6 20l3-2 4 3 3-4 4 2 3-3 3 2"/><path d="M10 26l3-3 3 2 4-3 3 3"/></svg>`,
+                'Edible Flowers': `<svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="${s}" stroke-width="1.2"><circle cx="16" cy="14" r="2.5"/><ellipse cx="16" cy="8" rx="2.5" ry="3.5"/><ellipse cx="21.5" cy="11.5" rx="2.5" ry="3.5" transform="rotate(72 21.5 11.5)"/><ellipse cx="19.5" cy="18" rx="2.5" ry="3.5" transform="rotate(144 19.5 18)"/><ellipse cx="12.5" cy="18" rx="2.5" ry="3.5" transform="rotate(-144 12.5 18)"/><ellipse cx="10.5" cy="11.5" rx="2.5" ry="3.5" transform="rotate(-72 10.5 11.5)"/></svg>`,
+                'Logo Stamp': `<svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="${s}" stroke-width="1.2"><rect x="8" y="6" width="16" height="16" rx="2"/><path d="M12 14l2.5-4 2.5 4"/><circle cx="20" cy="12" r="1.5"/><path d="M12 26h8"/><path d="M14 22v4"/><path d="M18 22v4"/></svg>`
+            };
+            return icons[name] || '';
         }
 
         function darken(hex) {

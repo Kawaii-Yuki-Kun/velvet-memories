@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="assets/images/VM White logo WN.png">
 </head>
 <body>
 
@@ -17,19 +18,22 @@
     </div>
 
     <header class="page-header">
-        <a href="index.html"><img src="assets/images/logo velvet memories-02.png" alt="Velvet Memories" class="header-logo"></a>
-        <h1>Mini Chocolate Workshop</h1>
+        <a href="index.html"><img src="assets/images/VM White logo WN.png" alt="Velvet Memories" class="header-logo"></a>
+        <div class="header-breadcrumb">
+            <span class="breadcrumb-current">Mini Chocolate Workshop</span>
+        </div>
     </header>
+
 
     <section class="workshop-page">
         <div class="workshop-video-wrapper" id="videoWrapper">
-            <!-- Replace src with your own workshop video -->
-            <video autoplay muted loop playsinline poster="assets/images/home page bg/workshop.jpg"
-                   onerror="this.style.display='none';document.getElementById('videoPoster').style.display='flex'">
+            <!-- To enable video: place your .mp4 file at assets/workshop-video.mp4 -->
+            <video id="workshopVideo" autoplay muted loop playsinline poster="assets/images/home page bg/workshop.jpg">
                 <source src="assets/workshop-video.mp4" type="video/mp4">
             </video>
-            <div id="videoPoster" style="display:flex;width:100%;height:100%;position:absolute;top:0;left:0;align-items:center;justify-content:center;background:url('assets/images/home page bg/workshop.jpg') center/cover no-repeat;">
-                <span style="font-size:4rem;color:var(--gold);opacity:0.8;">&#9654;</span>
+            <div class="video-poster-fallback" id="videoPoster">
+                <span class="video-play-icon">&#9654;</span>
+                <p class="video-note">Video coming soon</p>
             </div>
         </div>
 
@@ -41,7 +45,7 @@
         <div class="workshop-features">
             <div class="workshop-feature">
                 <div class="icon">
-                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#C9A24D" stroke-width="1.2">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#D4AD3E" stroke-width="1.2">
                         <circle cx="24" cy="20" r="10"/>
                         <path d="M14 20c0 8 10 18 10 18s10-10 10-18"/>
                         <path d="M20 16c0-2 1.5-4 4-4s4 2 4 4"/>
@@ -55,7 +59,7 @@
             </div>
             <div class="workshop-feature">
                 <div class="icon">
-                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#C9A24D" stroke-width="1.2">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#D4AD3E" stroke-width="1.2">
                         <rect x="12" y="18" width="24" height="20" rx="2"/>
                         <path d="M12 26h24"/>
                         <circle cx="24" cy="22" r="2"/>
@@ -68,7 +72,7 @@
             </div>
             <div class="workshop-feature">
                 <div class="icon">
-                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#C9A24D" stroke-width="1.2">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#D4AD3E" stroke-width="1.2">
                         <rect x="10" y="14" width="28" height="24" rx="3"/>
                         <path d="M10 22h28"/>
                         <path d="M18 14v-4h12v4"/>
@@ -88,9 +92,11 @@
         </div>
     </section>
 
-    <div class="back-accordion" id="backAccordion">
-        <button class="back-accordion-toggle" id="backToggle">&#8592;</button>
-        <nav class="back-accordion-menu">
+    <div class="nav-accordion" id="navAccordion">
+        <button class="nav-accordion-toggle" id="navToggle">
+            <span></span><span></span><span></span>
+        </button>
+        <nav class="nav-accordion-menu">
             <a href="index.html">Home</a>
             <a href="chocolate-collection.html">Chocolate Collection</a>
             <a href="setup-decorations.html">Setup Decorations</a>
@@ -99,12 +105,38 @@
             <a href="personalized-gift.html">Personalized Gift</a>
         </nav>
     </div>
-    <script>document.getElementById('backToggle').addEventListener('click',()=>document.getElementById('backAccordion').classList.toggle('open'));</script>
+
+    <footer class="site-footer">
+        <img src="assets/images/VM White logo WN.png" alt="Velvet Memories" class="footer-logo">
+        <div class="footer-brand">Velvet Memories</div>
+        <nav class="footer-links">
+            <a href="chocolate-collection.html">Chocolate Collection</a>
+            <a href="setup-decorations.html">Setup Decorations</a>
+            <a href="custom-design.html">Custom Design</a>
+            <a href="workshop.html">Workshop</a>
+            <a href="personalized-gift.html">Personalized Gift</a>
+        </nav>
+        <div class="footer-divider"></div>
+        <p class="footer-copy">&copy; 2026 Velvet Memories. All rights reserved.</p>
+    </footer>
+    <script>document.getElementById('navToggle').addEventListener('click',()=>document.getElementById('navAccordion').classList.toggle('open'));</script>
+    <script>window.addEventListener('scroll',()=>document.querySelector('.page-header').classList.toggle('scrolled',window.scrollY>50));</script>
+    <script>window.addEventListener('scroll',()=>document.querySelector('.page-header').classList.toggle('scrolled',window.scrollY>50));</script>
 
     <script>
         function payWorkshop() {
             const msg = encodeURIComponent("Hi! I'd like to pay for the Mini Chocolate Workshop.");
             window.open(`https://wa.me/?text=${msg}`, '_blank');
+        }
+
+        // Show poster fallback if video can't load; hide it if video plays
+        const vid = document.getElementById('workshopVideo');
+        const poster = document.getElementById('videoPoster');
+        if (vid) {
+            vid.addEventListener('canplay', () => { poster.classList.add('hidden'); });
+            vid.addEventListener('error', () => { poster.classList.remove('hidden'); });
+            // Also set poster background from the poster attribute
+            poster.style.backgroundImage = `url('${vid.getAttribute('poster')}')`;
         }
     </script>
     <script src="js/preloader.js"></script>
